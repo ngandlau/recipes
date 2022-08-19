@@ -4,19 +4,19 @@ from math import ceil
 from typing import List
 
 class Unit(Enum):
-    mililiter = 'mililiter'
-    essloeffel = 'essloeffel'
-    teeloeffel = 'teeloeffel'
-    dose = 'dose'
-    stueck = 'stueck'
+    mililiter = auto()
+    essloeffel = auto()
+    teeloeffel = auto()
+    dose = auto()
+    stueck = auto()
 
 class Ingredient(Enum):
-    gehackte_tomaten = 'gehackte tomaten'
-    knoblauchzehe = 'knoblauchzehe'
-    nudeln = 'nudeln'
-    reis = 'reis'
-    gegrillte_paprika = 'gegrillte paprika'
-    kichererbsen = 'kirchererbsen'
+    gehackte_tomaten = auto()
+    knoblauchzehe = auto()
+    nudeln = auto()
+    reis = auto()
+    gegrillte_paprika =auto()
+    kichererbsen = auto()
 
 @dataclass
 class Recipe:
