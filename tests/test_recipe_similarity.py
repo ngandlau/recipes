@@ -1,51 +1,38 @@
 from src.ingredient import Ingredient
+from src.item import Item
 from src.recipe import Recipe
 from src.find_recipes import find_recipe_given_leftovers
 from src.unit import Unit
 
 def test_find_recipe_given_leftovers():
-    recipe = Recipe(
-        name='hummus',
-        ingredients=[Ingredient.kichererbsen, Ingredient.gegrillte_paprika],
-        amounts=[0.5, 0.25],
-        units=[Unit.dose, Unit.glas]
+    leftovers = [
+        Item(Ingredient.kichererbsen, 0.5, Unit.dose),
+        Item(Ingredient.gegrillte_paprika, 0.25, Unit.glas),
+    ]
+
+    recipe_with_0_common_ingredients = Recipe(
+        name='',
+        items=[Item(Ingredient.moehre, 5.0, Unit.stueck)]
     )
 
     recipe_with_1_common_ingredients = Recipe(
-        name='',
-        ingredients=[Ingredient.kichererbsen],
-        amounts=[1.0],
-        units=[Unit.dose]
+        name='some',
+        items=[
+            Item(Ingredient.kichererbsen, 1.0, Unit.dose),
+        ]
     )
 
     recipe_with_2_common_ingredients = Recipe(
         name='',
-        ingredients=[
-            Ingredient.nudeln,
-            Ingredient.kichererbsen,
-            Ingredient.gegrillte_paprika
-        ],
-        amounts=[
-            250.0,
-            1.0,
-            0.5
-        ],
-        units=[
-            Unit.gramm,
-            Unit.dose,
-            Unit.glas
+        items=[
+            Item(Ingredient.nudeln, 250.0, Unit.gramm),
+            Item(Ingredient.kichererbsen, 1.0, Unit.dose),
+            Item(Ingredient.gegrillte_paprika, 0.5, Unit.glas)
         ]
     )
 
-    recipe_with_0_common_ingredients = Recipe(
-        name='',
-        ingredients=[Ingredient.moehre],
-        amounts=[5.0],
-        units=[Unit.stueck]
-    )
 
     recipes = [
-        recipe,
         recipe_with_2_common_ingredients,
         recipe_with_1_common_ingredients,
         recipe_with_0_common_ingredients,
@@ -55,6 +42,6 @@ def test_find_recipe_given_leftovers():
         (recipe_with_2_common_ingredients, 2),
         (recipe_with_1_common_ingredients, 1)
     ]
-    ist = find_recipe_given_leftovers(recipe, recipes)
+    ist = find_recipe_given_leftovers(leftovers, recipes)
     assert ist == soll
 

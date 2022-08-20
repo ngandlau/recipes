@@ -1,8 +1,9 @@
 from typing import List
+from src.item import Item
 from src.recipe import Recipe
 
 
-def find_recipe_given_leftovers(recipe: Recipe, recipes: List[Recipe]) -> List[Recipe]:
+def find_recipe_given_leftovers(leftovers: List[Item], recipes: List[Recipe]) -> List[Recipe]:
     """
     Finds recipes that can be made from the leftovers of `recipe`, or at least
     recipes that do not need many more ingredients.
@@ -10,23 +11,22 @@ def find_recipe_given_leftovers(recipe: Recipe, recipes: List[Recipe]) -> List[R
     Returns a list of recipes that require at least *one* of the ingredients
     that is left over.
     """
-    leftovers = recipe.leftovers()
-    leftover_ingredients = [ingredient for ingredient, amount, unit in leftovers]
-
-    partner_recipes = []
-    for other_recipe in recipes:
-        if recipe == other_recipe:
-            continue
+    recipes_made_with_leftovers = []
+    for recipe in recipes:
+        ingredients = recipe.get_ingredients()
 
         n_common_ingredients = 0
-        for ingredient in leftover_ingredients:
-            if ingredient in other_recipe.ingredients:
+        for item in leftovers:
+            if item.ingredient in ingredients:
                 n_common_ingredients += 1
 
         if n_common_ingredients > 0:
-            partner_recipes.append((other_recipe, n_common_ingredients))
+            recipes_made_with_leftovers.append((recipe, n_common_ingredients))
 
-    return partner_recipes
+    # recipes are sorted by their number of common ingredients in descending order
+    recipes_made_with_leftovers.sort(key=lambda i:i[1], reverse=True)
+
+    return recipes_made_with_leftovers
 
 
         
